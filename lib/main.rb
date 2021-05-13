@@ -13,9 +13,14 @@ def main
 end
 
 def display_welcome_message
-  welcome_message =  
+  welcome_message =
     "Welcome to hangman\n"\
     'Enter load to continue a saved game or '\
     'press Enter to start a new game'
   puts welcome_message
+end
+
+def load_words
+  words = File.read('5desk.txt').split("\n")
+  words.select { |word| word.length >= 5 && word.length <= 12 }
 end
