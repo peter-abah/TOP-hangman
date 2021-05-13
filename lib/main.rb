@@ -9,7 +9,7 @@ def main
   choice = gets.chomp.downcase
 
   game = choice == 'load' ? load_game : Game.new(words.sample)
-  game.play
+  game&.play
 end
 
 def display_welcome_message
@@ -26,7 +26,20 @@ def load_words
 end
 
 def load_game
-  Game.new('wertalop')
+  if Dir.exist?('saved_games')
+    games = Dir.entries('saved_games').map { |file| file[0..-6] }
+    puts 'The following games are availaible'
+    puts games.join(' ')
+    puts 'Choose one'
+    file_name = "saved_games/#{gets.downcase.chomp}.yaml"
+    if File.exist?(file_name)
+      YAML.safe_load(File.read(file_name))
+    else
+      puts 'The selected file does not exist'
+    end
+  else
+    puts 'No saved game availaible'
+  end
 end
 
 main
