@@ -24,3 +24,7 @@ def load_words
   words = File.read('5desk.txt').split("\n")
   words.select { |word| word.length >= 5 && word.length <= 12 }
 end
+
+def load_game
+  Game.new('wertalop')
+end
