@@ -1,6 +1,7 @@
 #frozen_string_literal: true
 
 require 'set'
+require 'yaml'
 
 class Game
   def initialize(word)
@@ -13,7 +14,9 @@ class Game
   end
 
   def play
-    until @won || @incorrect > 7
+    until @won || @incorrect >= 7
+      prompt_to_save
+
       puts in_game_message
       letter = gets.chomp.downcase
 
@@ -23,6 +26,7 @@ class Game
         @hidden_letters.include?(letter) ? @letters.add(letter) : @incorrect += 1
         @guessed.add(letter)
       end
+
       @won = true if @letters == @hidden_letters
     end
     puts end_game_message
@@ -43,5 +47,17 @@ class Game
     result = ''
     result += "You Won!\n" if @won
     result + "The word is #{@hidden_word.capitalize}"
+  end
+
+  def prompt_to_save
+    puts 'Enter save to save game'
+    choice = gets.chomp.downcase
+    return unless choice == 'save'
+
+    puts 'Enter name to save game as'
+    file_name = "#{gets.chomp.downcase}.yaml"
+    saved_game = YAML.dump(self)
+
+    File.open(file_name, 'w') { |file| file.write(saved_game) }
   end
 end

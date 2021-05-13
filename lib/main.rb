@@ -1,4 +1,4 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 require_relative 'game'
 
@@ -28,3 +28,5 @@ end
 def load_game
   Game.new('wertalop')
 end
+
+main
