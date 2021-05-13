@@ -27,19 +27,30 @@ end
 
 def load_game
   if Dir.exist?('saved_games')
-    games = Dir.entries('saved_games').map { |file| file[0..-6] }
-    puts 'The following games are availaible'
-    puts games.join(' ')
-    puts 'Choose one'
+    display_saved_games
+
     file_name = "saved_games/#{gets.downcase.chomp}.yaml"
     if File.exist?(file_name)
-      YAML.safe_load(File.read(file_name))
+      load_saved_game(file_name)
     else
       puts 'The selected file does not exist'
     end
+
   else
     puts 'No saved game availaible'
   end
+end
+
+def display_saved_games
+  games = Dir.entries('saved_games').map { |file| file[0..-6] }
+
+  puts 'The following games are availaible'
+  puts games.join(', ')
+  puts 'Choose one'
+end
+
+def load_saved_game(file_name)
+  YAML.safe_load(File.read(file_name))
 end
 
 main
