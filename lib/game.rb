@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'set'
-require 'yaml'
 
 class Game
   def initialize(word)
@@ -28,7 +27,7 @@ class Game
   end
 
   def prompt_for_input
-    puts "Guess a letter"
+    puts 'Guess a letter'
     gets.chomp.downcase
   end
 
@@ -58,11 +57,15 @@ class Game
   def save_game
     Dir.mkdir('saved_games') unless Dir.exist?('saved_games')
 
-    puts 'Enter name to save game as'
-    file_name = "saved_games/#{gets.chomp.downcase}.yaml"
+    file_name = prompt_for_file_name
     saved_game = YAML.dump(self)
 
     File.open(file_name, 'w') { |file| file.write(saved_game) }
+  end
+
+  def prompt_for_file_name
+    puts 'Enter name to save game as'
+    "saved_games/#{gets.chomp.downcase}.yaml"
   end
 
   def prompt_to_save
