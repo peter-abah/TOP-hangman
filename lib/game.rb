@@ -15,21 +15,30 @@ class Game
 
   def play
     until @won || @incorrect >= 7
+      letter = prompt_for_input
+
+      update_game_state(letter)
+
       prompt_to_save
-
-      puts in_game_message
-      letter = gets.chomp.downcase
-
-      if letter == @hidden_word
-        @won = true
-      else
-        @hidden_letters.include?(letter) ? @letters.add(letter) : @incorrect += 1
-        @guessed.add(letter)
-      end
-
-      @won = true if @letters == @hidden_letters
     end
+
     puts end_game_message
+  end
+
+  def prompt_for_input
+    puts in_game_messag
+    gets.chomp.downcase
+  end
+
+  def update_game_state(letter)
+    if letter == @hidden_word
+      @won = true
+    else
+      @hidden_letters.include?(letter) ? @letters.add(letter) : @incorrect += 1
+      @guessed.add(letter)
+    end
+
+    @won = true if @letters == @hidden_letters
   end
 
   def in_game_message
@@ -50,7 +59,7 @@ class Game
   end
 
   def prompt_to_save
-    puts 'Enter save to save game'
+    puts "\nEnter save to save game or enter any key to continue"
     choice = gets.chomp.downcase
     return unless choice == 'save'
 
