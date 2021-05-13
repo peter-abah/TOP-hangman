@@ -13,17 +13,17 @@ class Game
   end
 
   def play
-    until @won && @incorrect > 7
+    until @won || @incorrect > 7
       puts in_game_message
       letter = gets.chomp.downcase
 
       if letter == @hidden_word
         @won = true
       else
-        hidden_letters.include?(letter) ? @letters.add(letter) : @incorrect += 1
-        guessed.add(letter)
+        @hidden_letters.include?(letter) ? @letters.add(letter) : @incorrect += 1
+        @guessed.add(letter)
       end
-      @won = true if letters == hidden_letters
+      @won = true if @letters == @hidden_letters
     end
     puts end_game_message
   end
@@ -37,5 +37,11 @@ class Game
       "#{dashed.join(' ')}\n" \
       "Incorrect : #{@incorrect}\n" \
       "Guessed Letters: #{@guessed.to_a.join(', ')}"
+  end
+
+  def end_game_message
+    result = ''
+    result += "You Won!\n" if @won
+    result + "The word is #{@hidden_word.capitalize}"
   end
 end
